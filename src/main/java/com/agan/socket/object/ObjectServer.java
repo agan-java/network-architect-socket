@@ -21,9 +21,9 @@ public class ObjectServer {
 
                 //第三步：建立IO输入流，读取客户端发送的数据，只要跟客户端建立好连接之后，我们就可以获取socket的InputStream，并从中读取客户端发过来的信息了。
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-
                 Student stu = (Student)ois.readObject();
                 System.out.println("接收到客户端发来的数据: " + stu);
+
                 //第四步：建立IO输出流，向客户端发送数据消息
                 oos = new ObjectOutputStream(socket.getOutputStream());
                 //把student的age加上10岁返回给客户端
