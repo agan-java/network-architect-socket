@@ -1,0 +1,28 @@
+##ignore this file##
+/logs/
+/target/
+/target
+target
+/classes/
+/META-INF/
+.classpath
+.project
+.settings
+*.log
+MANIFEST.MF
+
+._*  
+.Spotlight-V100  
+.Trashes  
+Icon?  
+ehthumbs.db  
+Thumbs.db
+*.log
+
+# IntelliJ IDEA project files and directories
+*.iml
+*.ipr
+*.iws
+.idea/
+.idea
+
