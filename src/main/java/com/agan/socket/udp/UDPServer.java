@@ -14,7 +14,6 @@ public class UDPServer {
             // 第一步，创建 DatagramSocket 实例，需要指定本地的端口，表明要获取本地哪个端口的数据包。
             datagramSocket = new DatagramSocket(8889);
 
-
             // 第二步，接收指定端口的数据包。
             DatagramPacket receivePacket = new DatagramPacket(new byte[ECHOMAX], ECHOMAX);
             datagramSocket.receive(receivePacket);

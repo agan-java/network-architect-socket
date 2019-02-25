@@ -6,45 +6,25 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class UDPClient {
-    private static final int TIMEOUT = 3000;
-    private static final int MAXTRIES = 5;
+
 
     public static void main(String[] args) {
         byte[] data = "hello world".getBytes();
         DatagramSocket datagramSocket = null;
         try {
-            // 1. create a datagram socket
+            // 第一步，创建 DatagramSocket 实例，由于 UDP 是无连接的，不需要指定服务器的 IP 地址和端口号。
             datagramSocket = new DatagramSocket();
-            datagramSocket.setSoTimeout(TIMEOUT); // receive timeout
-            // 2. create datagram packet for sending and receiving
-            DatagramPacket sendPacket = new DatagramPacket(data, data.length,
-                    InetAddress.getLocalHost(), 8889);
+
+            // 第二步，创建用于发送和接收的数据包。可以注意到，用于发送和接收的 DatagramPacket 实例的创建方式是不同的。
+            DatagramPacket sendPacket = new DatagramPacket(data, data.length, InetAddress.getLocalHost(), 8889);
+
+            // 第三步，使用 DatagramSocket 实例的 send(DatagramPacket p) 发送数据包。
+            datagramSocket.send(sendPacket);
+
+            // 第四步，使用 DatagramSocket 实例 receive(DatagramPacket p) 来接收服务器返回的数据包。
             DatagramPacket receivePacket = new DatagramPacket(new byte[data.length], data.length);
-
-            int tries = 0;// packets may be lost, so we have to keep trying
-            boolean receivedResponse = false;
-            do {
-                // 3. send datagram packet
-                datagramSocket.send(sendPacket);
-                try {
-                    // 4. receive datagram packet, blocking until receive reponse
-                    datagramSocket.receive(receivePacket);
-                    if (!receivePacket.getAddress().equals(sendPacket.getAddress())) {
-                        throw new IOException("Received packet from an unknown source");
-                    }
-                    receivedResponse = true;
-                } catch (IOException e) {
-                    //5. if error, try again
-                    tries += 1;
-                    System.out.println("Timed out, " + (MAXTRIES - tries) + " more tries...");
-                }
-            } while (!receivedResponse && (tries < MAXTRIES));
-
-            if (receivedResponse) {
-                System.out.println("Server said: " + new String(receivePacket.getData()));
-            } else {
-                System.out.println("No response -- giving up");
-            }
+            datagramSocket.receive(receivePacket);
+            System.out.println("Server said: " + new String(receivePacket.getData()));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
