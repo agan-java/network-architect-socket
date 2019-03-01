@@ -41,7 +41,7 @@ public class Client {
             socket.setReuseAddress(true);
 
             //TODO在此输入外网地址和端口
-            String ip = "127.0.0.1";
+            String ip = "47.106.128.80";
             int port = 8888;
             socket.connect(new InetSocketAddress(ip, port));
 
